@@ -1,51 +1,83 @@
 <!doctype html>
-<html lang="ko">
+<html lang="en">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <meta name="description" content="개인 생산성 대시보드" />
-    <title>Personal Dashboard</title>
+    <meta name="description" content="Personal productivity dashboard and playground." />
+    <title>Dashboard — Personal Space</title>
     <link rel="stylesheet" href="styles.css" />
     <script src="script.js" defer></script>
+    <script src="game.js" defer></script>
   </head>
   <body>
     <header class="site-header">
-      <a class="brand" href="#home">Dashboard</a>
-      <button class="menu-toggle" type="button" aria-expanded="false" aria-controls="site-nav">
-        메뉴
-      </button>
-      <nav id="site-nav" class="site-nav" aria-label="주요 메뉴">
+      <a class="brand" href="#home" aria-label="Dashboard home">Dashboard</a>
+      <button class="menu-toggle" type="button" aria-expanded="false" aria-controls="site-nav">Menu</button>
+      <nav id="site-nav" class="site-nav" aria-label="Primary navigation">
         <a href="#home">Home</a>
+        <a href="#about">About</a>
+        <a href="#projects">Work</a>
         <a href="#todo">Todo</a>
         <a href="#calendar">Calendar</a>
         <a href="#games">Games</a>
+        <a href="#contact">Contact</a>
       </nav>
     </header>
 
     <main>
-      <section id="home" class="panel hero" aria-labelledby="home-title">
-        <p class="eyebrow">PERSONAL SPACE</p>
-        <h1 id="home-title">오늘을 정리하는<br />나만의 대시보드</h1>
-        <p>할 일과 일정을 한곳에서 확인하고, 잠시 쉬어갈 게임도 준비해 두었습니다.</p>
+      <section id="home" class="hero panel" aria-labelledby="home-title">
+        <div class="hero-copy">
+          <p class="eyebrow">PERSONAL SPACE / 01</p>
+          <h1 id="home-title">Make room for<br /><span>what matters.</span></h1>
+          <p class="lede">A calm, responsive space for work, planning, research, and a little play.</p>
+          <a class="button button-light" href="#about">Explore the space <span aria-hidden="true">↘</span></a>
+        </div>
+        <div class="hero-orbit" aria-hidden="true"><span></span><span></span><span></span></div>
       </section>
 
-      <section id="todo" class="panel" aria-labelledby="todo-title">
-        <p class="eyebrow">TASKS</p>
-        <h2 id="todo-title">Todo</h2>
-        <p>할 일을 관리하는 공간입니다.</p>
+      <section id="about" class="section-block" aria-labelledby="about-title">
+        <div class="section-heading"><p class="eyebrow">ABOUT / 02</p><h2 id="about-title">A dashboard for<br />deep work.</h2></div>
+        <div class="section-copy"><p>This personal dashboard brings daily notes, plans, and experiments into one lightweight static site.</p><p class="muted">Profile details and career copy: [human review needed]</p></div>
       </section>
 
-      <section id="calendar" class="panel" aria-labelledby="calendar-title">
-        <p class="eyebrow">SCHEDULE</p>
-        <h2 id="calendar-title">Calendar</h2>
-        <p>일정을 날짜별로 확인하는 공간입니다.</p>
+      <section id="projects" class="section-block work-section" aria-labelledby="work-title">
+        <div class="section-heading"><p class="eyebrow">SELECTED WORK / 03</p><h2 id="work-title">Projects, experience,<br />and research.</h2></div>
+        <div class="card-grid">
+          <article class="work-card"><span class="card-index">01</span><h3>Projects</h3><p>Selected projects and outcomes will be added here.</p><small>[human review needed]</small></article>
+          <article class="work-card"><span class="card-index">02</span><h3>Experience</h3><p>Professional experience summary placeholder.</p><small>[human review needed]</small></article>
+          <article class="work-card"><span class="card-index">03</span><h3>Research</h3><p>Research interests and publications placeholder.</p><small>[human review needed]</small></article>
+        </div>
       </section>
 
-      <section id="games" class="panel games-placeholder" aria-labelledby="games-title">
-        <p class="eyebrow">PLAYGROUND</p>
-        <h2 id="games-title">Games</h2>
-        <p>게임 영역을 준비 중입니다.</p>
+      <section id="todo" class="app-section panel" aria-labelledby="todo-title">
+        <div class="section-heading compact"><p class="eyebrow">TASKS / 04</p><h2 id="todo-title">Todo</h2><p>Capture the next useful action.</p></div>
+        <form id="todo-form" class="inline-form">
+          <label class="sr-only" for="todo-title-input">Task title</label><input id="todo-title-input" name="title" required placeholder="What needs doing?" />
+          <label class="sr-only" for="todo-category">Category</label><select id="todo-category" name="category"><option>Work</option><option>Personal</option><option>Study</option></select>
+          <label class="sr-only" for="todo-priority">Priority</label><select id="todo-priority" name="priority"><option value="low">Low</option><option value="medium" selected>Medium</option><option value="high">High</option></select>
+          <label class="sr-only" for="todo-due">Due date</label><input id="todo-due" name="due" type="date" />
+          <label class="check-label"><input name="reminder" type="checkbox" /> Reminder</label><button class="button" type="submit">Add task</button>
+        </form>
+        <div class="toolbar"><span id="todo-count" class="muted">0 tasks</span><div class="filter-group" role="group" aria-label="Todo filters"><button type="button" class="filter-button active" data-filter="all">All</button><button type="button" class="filter-button" data-filter="open">Open</button><button type="button" class="filter-button" data-filter="done">Done</button></div></div>
+        <ul id="todo-list" class="item-list" aria-live="polite"></ul>
       </section>
+
+      <section id="calendar" class="app-section panel" aria-labelledby="calendar-title">
+        <div class="section-heading compact"><p class="eyebrow">SCHEDULE / 05</p><h2 id="calendar-title">Calendar</h2><p>Keep the day visible.</p></div>
+        <form id="calendar-form" class="inline-form calendar-form"><label class="sr-only" for="event-date">Event date</label><input id="event-date" name="date" type="date" required /><label class="sr-only" for="event-title">Event title</label><input id="event-title" name="title" required placeholder="Add an event" /><button class="button" type="submit">Add event</button></form>
+        <ul id="event-list" class="item-list" aria-live="polite"></ul>
+      </section>
+
+      <section id="games" class="game-section panel" aria-labelledby="games-title">
+        <div class="section-heading compact"><p class="eyebrow">PLAYGROUND / 06</p><h2 id="games-title">Tetris, one line<br />at a time.</h2><p>Keyboard, WASD, and touch controls are supported.</p></div>
+        <div class="game-layout">
+          <div class="board-wrap"><canvas id="tetris-board" width="300" height="600" aria-label="Tetris board"></canvas><p id="tetris-status" class="game-status" role="status">Ready to play.</p></div>
+          <aside class="game-side" aria-label="Tetris controls and score"><div class="score-grid"><div><span>Score</span><strong id="tetris-score">0</strong></div><div><span>Lines</span><strong id="tetris-lines">0</strong></div><div><span>Best</span><strong id="tetris-high-score">0</strong></div><div><span>Level</span><strong id="tetris-level">1</strong></div></div><div class="next-piece"><span class="eyebrow">NEXT BLOCK</span><canvas id="tetris-next" width="120" height="120" aria-label="Next Tetris block"></canvas></div><p id="tetris-food-status" class="muted">Food: next block ready · Growth: clear lines to level up.</p><div class="game-actions"><button id="tetris-start" class="button" type="button">Start</button><button id="tetris-pause" class="button button-quiet" type="button" disabled>Pause</button><button id="tetris-restart" class="button button-quiet" type="button">Restart</button></div><div class="touch-controls" aria-label="Touch controls"><button type="button" data-game-action="left" aria-label="Move left">←</button><button type="button" data-game-action="rotate" aria-label="Rotate">↻</button><button type="button" data-game-action="down" aria-label="Soft drop">↓</button><button type="button" data-game-action="right" aria-label="Move right">→</button></div><p class="controls-help">Arrows / WASD: move and rotate<br />P: pause · R: restart</p></aside>
+        </div>
+      </section>
+
+      <section id="contact" class="section-block contact-section" aria-labelledby="contact-title"><div class="section-heading"><p class="eyebrow">CONTACT / 07</p><h2 id="contact-title">Have a good<br />question?</h2></div><form id="contact-form" class="contact-form"><label for="contact-name">Name</label><input id="contact-name" required /><label for="contact-message">Message</label><textarea id="contact-message" rows="4" required></textarea><button class="button" type="submit">Prepare message</button><p id="contact-status" class="muted" role="status"></p></form></section>
     </main>
+    <footer class="site-footer"><span>Dashboard / 2026</span><a href="#home">Back to top ↑</a></footer>
   </body>
 </html>
